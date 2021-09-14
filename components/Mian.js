@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-
+import CreateForm from './CreateForm';
+import ReportTable from './ReportTable';
 
 
 
 export default function Mian() {
-    let lastone= []
+    let lastone = []
+
+    const [sales_0ne, setSale] = useState([])
+    // const[workingHours,setworkingHours]=useState(['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'])
     const [stores, setStore] = useState([]);
     function formhandler(event) {
         event.preventDefault();
@@ -15,82 +19,55 @@ export default function Mian() {
             maximum: event.target.maximum.value,
             average: event.target.average.value,
         }
-        
-        setStore(storess => [...storess, store])
-     
-        lastone.push(stores.length -1)
+        const hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm']
 
+        const cal_hour=hours.map(()=>{
+            return Math.floor(Math.random() * parseInt(store.average) * (parseInt(store.maximum) - parseInt(store.minimum)+ 1) + parseInt(store.minimum))
+         })
+     
+        const objectData={
+            location:event.target.location.value,
+            cal_hour:cal_hour,
+            sum:cal_hour.reduce((a, b) => a + b, 0)
+        }
+    
+        setSale(storess => [...storess, objectData])
+
+        setStore(storess => [...storess, store])
+
+        lastone.push(stores.length - 1)
+   
     }
-    console.log(stores);
+    console.log(sales_0ne)
+    // console,log(store)
+    // console.log(stores);
+    
 
 
     return (
+        <>
 
-        <main className="main-2">
-
-
-            <form className="w-full max-w-lg" onSubmit={formhandler}>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full px-3" >
-                        <p>Create Cookie Stand</p>
-                    </div>
-
-                    <div className="w-full px-3">
-                        <label className="block uppercase  text-gray-700 text-xs font-bold mb-2" htmlFor="grid-Location">
-                            Location
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="location" type="text" placeholder="" />
-
-                    </div>
-                    <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
-                            Minimum customer per Hour
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="minimum" type="text" placeholder="Jane" />
-
-                    </div>
-                    <div className="w-full md:w-1/4 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                            Maximum customer per Hour
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="maximum" type="text" placeholder="Doe" />
-                    </div>
-                    <div className="w-full md:w-1/4 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                            Average Cookies per Sale
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="average" type="text" placeholder="Doe" />
-                    </div>
-                    <div className="w-full md:w-1/4 px-3">
-                        <button className="py-2 px-4 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
-                            Create
-                        </button>
-                    </div>
-
-                </div>
-
-            </form>
-
+            <CreateForm formhandler={formhandler} />
+            {/* <ReportTable  sales_0ne ={sales_0ne}/> */}
             {
                 // stores && stores.map(store => {
                 //     <p>{store.location} {store.maximum} {store.minimum} {store.average}</p>
                 // })
 
-                stores.map(obj => { 
-                    return(
-                        <p>{obj.location} {obj.minimum} {obj.minimum} {obj.average}</p>
+                // stores.map(obj => { 
+                //     return(
+                //         <p>{obj.location} {obj.minimum} {obj.minimum} {obj.average}</p>
 
-                    )
-                   
+                //     )
+                          sales_0ne.map(obj =>{
+                              return <h1 key={obj}>{obj.location} {obj.cal_hour}</h1>
+                          })
 
-                })
-               
+                // })
+
             }
-           
 
-        </main>
+        </>
     )
 
 
